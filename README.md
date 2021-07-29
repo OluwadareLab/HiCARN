@@ -1,4 +1,4 @@
-# HiCARN: Super Resolution of Hi-C Data with a Cascading Residual Network
+# HiCARN: Super enhancement of Hi-C contact map resolutions
 
 ___________________
 ## Dependencies
