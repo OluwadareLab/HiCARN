@@ -4,7 +4,7 @@ import copy
 from sklearn import metrics
 import scipy.sparse as sps
 
-
+# Code taken from https://github.com/kundajelab/genomedisco
 def to_transition(mtogether):
     sums = mtogether.sum(axis=1)
     # make the ones that are 0, so that we don't divide by 0

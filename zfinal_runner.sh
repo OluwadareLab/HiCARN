@@ -4,7 +4,7 @@
 # For example: "/data/RaoHiC/raw/GM12878/10kb_resolution_intrachromosomal"
 
 # Reading raw data
-# python Read.py -c GM12878
+# python Read_Data.py -c GM12878
 
 # Downsampling data
 # python Downsample.py -hr 10kb -lr 40kb -r 16 -c GM12878

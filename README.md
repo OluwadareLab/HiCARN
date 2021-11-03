@@ -1,4 +1,4 @@
-# HiCARN: Resolution Enhancement of Hi-C Data Using Cascading Residual Networks
+# HiCARN: Super Resolution of Hi-C Data with a Cascading Residual Network
 
 ___________________
 ## Dependencies
@@ -40,7 +40,7 @@ Follow the following steps to generate datasets in .npz format:
 will be stored.
 
 ```bash
-$ python Data/Read.py -c GM12878
+$ python Read_Data.py -c GM12878
 ```
 Required arguments:
 * `-c`: Cell line as named in `$root_dir/raw/[cell_line_name]`.
