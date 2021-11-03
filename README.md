@@ -53,7 +53,7 @@ Optional arguments:
 2. **Randomly downsample the data.** This adds downsampled HR data to `$root_dir/mat/[cell_line_name]` as chrN_[LR].npz.
 
 ```bash
-$ python Data/Downsample.py -hr 10kb -lr 40kb -r 16 -c GM12878
+$ python Downsample.py -hr 10kb -lr 40kb -r 16 -c GM12878
 ```
 All arguments:
 * `-hr`: Specified resolution from the previous step. Default is 10kb
@@ -68,7 +68,7 @@ All arguments:
    hicarn_10kb40kb_c40_s40_b201_nonpool_train.npz. 
    
 ```bash
-$ python Data/Generate.py -hr 10kb -lr 40kb -lrc 100 -s train -chunk 40 -stride 40 -bound 201 -scale 1 -c GM12878
+$ python Generate.py -hr 10kb -lr 40kb -lrc 100 -s train -chunk 40 -stride 40 -bound 201 -scale 1 -c GM12878
 ```
 All arguments:
 * `-hr`: High resolution in chrN_[HR].npz used as a target for training. Default is 10kb.
@@ -92,7 +92,7 @@ We provide training files for both HiCARN-1 and HiCARN-2.
 To train:
 
 ```bash
-$ python Train/HiCARN_[1 or 2]_Train.py
+$ python HiCARN_[1 or 2]_Train.py
 ```
 ___________________
 ## Predicting
@@ -102,14 +102,14 @@ your own trained model. For quick predictions use the following commands below:
 
 1. If predicting with HiCARN-1, HiCARN-2, or DeepHiC:
 ```bash
-$ python Predict/40x40_Predict.py -m hicarn_1 -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -c GM12878
+$ python 40x40_Predict.py -m hicarn_1 -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -c GM12878
 ```
 
 2. If predicting with HiCSR, HiCNN, or HiCPlus:
 * These models output a 28x28 matrix from a 40x40 input, so the inputs need to be padded to 52x52 so that a 40x40
 output is returned.
 ```bash
-$ python Predict/28x28_Predict.py -m hicsr -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -c GM12878
+$ python 28x28_Predict.py -m hicsr -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -c GM12878
 ```
 All arguments:
 * `-m`: Model to predict with. Options are hicarn_1, hicarn_2, deephic, hicsr, hicnn, or hicplus.
@@ -125,10 +125,10 @@ If you would like to perform analysis metrics for your predictions use the follo
 
 1. If predicting with HiCARN-1, HiCARN-2, or DeepHiC:
 ```bash
-$ python Predict/40x40_Predict_With_Metrics.py -m hicarn_1 -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -c GM12878
+$ python 40x40_Predict_With_Metrics.py -m hicarn_1 -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -c GM12878
 ```
 
 2. If predicting with HiCSR, HiCNN, or HiCPlus:
 ```bash
-$ python Predict/28x28_Predict_With_Metrics.py -m hicsr -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -c GM12878
+$ python 28x28_Predict_With_Metrics.py -m hicsr -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -c GM12878
 ```
