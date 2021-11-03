@@ -102,17 +102,17 @@ your own trained model. For quick predictions use the following commands below:
 
 1. If predicting with HiCARN-1, HiCARN-2, or DeepHiC:
 ```bash
-$ python Predict/40x40_Predict.py -m hicarn_1 -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -c GM12878
+$ python Predict/40x40_Predict.py -m HiCARN_1 -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -c GM12878
 ```
 
 2. If predicting with HiCSR, HiCNN, or HiCPlus:
 * These models output a 28x28 matrix from a 40x40 input, so the inputs need to be padded to 52x52 so that a 40x40
 output is returned.
 ```bash
-$ python Predict/28x28_Predict.py -m hicsr -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -c GM12878
+$ python Predict/28x28_Predict.py -m HiCSR -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -c GM12878
 ```
 All arguments:
-* `-m`: Model to predict with. Options are hicarn_1, hicarn_2, deephic, hicsr, hicnn, or hicplus.
+* `-m`: Model to predict with. Options are HiCARN_1, HiCARN_2, DeepHiC, HiCSR, HiCNN, or HiCPlus.
 * `-lr`: Low resolution to be enhanced. Default is 40kb.
 * `-ckpt`: Checkpoint file from either our `Pretrained_weights` or your `$root_dir/checkpoints` directory.
 * `-f`: Low resolution file to be enhanced. 
@@ -125,10 +125,10 @@ If you would like to perform analysis metrics for your predictions use the follo
 
 1. If predicting with HiCARN-1, HiCARN-2, or DeepHiC:
 ```bash
-$ python Predict/40x40_Predict_With_Metrics.py -m hicarn_1 -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -c GM12878
+$ python Predict/40x40_Predict_With_Metrics.py -m HiCARN_1 -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -c GM12878
 ```
 
 2. If predicting with HiCSR, HiCNN, or HiCPlus:
 ```bash
-$ python Predict/28x28_Predict_With_Metrics.py -m hicsr -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -c GM12878
+$ python Predict/28x28_Predict_With_Metrics.py -m HiCSR -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -c GM12878
 ```

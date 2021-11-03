@@ -6,6 +6,9 @@ from torch.utils.data import TensorDataset, DataLoader
 from tqdm import tqdm
 from math import log10
 import torch
+import Models.DeepHiC as DeepHiC
+import Models.HiCARN_1 as HiCARN_1
+import Models.HiCARN_2 as HiCARN_2
 from Utils.SSIM import ssim
 from Utils.GenomeDISCO import compute_reproducibility
 from Utils.io import spreadM, together
@@ -44,8 +47,8 @@ def hicarn_predictor(model, hicarn_loader, ckpt_file, device):
     deepmodel = model.Generator(num_channels=64).to(device)
     if not os.path.isfile(ckpt_file):
         ckpt_file = f'save/{ckpt_file}'
-    deepmodel.load_state_dict(torch.load(ckpt_file))
-    print(f'Loading CARN checkpoint file from "{ckpt_file}"')
+    deepmodel.load_state_dict(torch.load(ckpt_file, map_location=torch.device('cpu')))
+    print(f'Loading HiCARN checkpoint file from "{ckpt_file}"')
 
     result_data = []
     result_inds = []
@@ -59,7 +62,7 @@ def hicarn_predictor(model, hicarn_loader, ckpt_file, device):
 
     deepmodel.eval()
     with torch.no_grad():
-        for batch in tqdm(hicarn_loader, desc='CARN Predicting: '):
+        for batch in tqdm(hicarn_loader, desc='HiCARN Predicting: '):
             lr, hr, inds = batch
             batch_size = lr.size(0)
             test_metrics['nsamples'] += batch_size
@@ -121,7 +124,6 @@ if __name__ == '__main__':
     cell_line = args.cell_line
     low_res = args.low_res
     ckpt_file = args.checkpoint
-    res_num = args.resblock
     cuda = args.cuda
     model = args.model
     print('WARNING: Predict process requires large memory, thus ensure that your machine has ~150G memory.')
@@ -135,7 +137,7 @@ if __name__ == '__main__':
     mkdir(out_dir)
 
     files = [f for f in os.listdir(in_dir) if f.find(low_res) >= 0]
-    HiCARN_file = os.path.join(root_dir, 'data/', args.file)
+    HiCARN_file = os.path.join(root_dir, 'data/', args.file_name)
 
     chunk, stride, bound, scale = filename_parser(HiCARN_file)
 
@@ -149,6 +151,16 @@ if __name__ == '__main__':
     hicarn_loader = dataloader(hicarn_data)
 
     indices, compacts, sizes = data_info(hicarn_data)
+
+    if model == "HiCARN_1":
+        model = HiCARN_1
+
+    if model == "HiCARN_2":
+        model = HiCARN_2
+
+    if model == "DeepHiC":
+        model = DeepHiC
+
     hicarn_hics = hicarn_predictor(model, hicarn_loader, ckpt_file, device)
 
 

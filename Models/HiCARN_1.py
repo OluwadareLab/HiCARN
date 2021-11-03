@@ -82,11 +82,15 @@ class Generator(nn.Module):
         self.cb1 = Cascading_Block(num_channels)
         self.cb2 = Cascading_Block(num_channels)
         self.cb3 = Cascading_Block(num_channels)
+        self.cb4 = Cascading_Block(num_channels)
+        self.cb5 = Cascading_Block(num_channels)
 
         # Body 1x1 convolution layers
         self.cv1 = nn.Conv2d(num_channels * 2, num_channels, kernel_size=(1, 1), stride=(1, 1), padding=(0, 0))
         self.cv2 = nn.Conv2d(num_channels * 3, num_channels, kernel_size=(1, 1), stride=(1, 1), padding=(0, 0))
         self.cv3 = nn.Conv2d(num_channels * 4, num_channels, kernel_size=(1, 1), stride=(1, 1), padding=(0, 0))
+        self.cv4 = nn.Conv2d(num_channels * 5, num_channels, kernel_size=(1, 1), stride=(1, 1), padding=(0, 0))
+        self.cv5 = nn.Conv2d(num_channels * 6, num_channels, kernel_size=(1, 1), stride=(1, 1), padding=(0, 0))
 
         # 3x3 exit convolution layer
         self.exit = nn.Conv2d(num_channels, 1, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
@@ -110,5 +114,13 @@ class Generator(nn.Module):
         c3 = torch.cat([c2, b3], dim=1)
         o3 = self.cv3(c3)
 
-        out = self.exit(o3)
+        b4 = self.cb4(o3)
+        c4 = torch.cat([c3, b4], dim=1)
+        o4 = self.cv4(c4)
+
+        b5 = self.cb5(o4)
+        c5 = torch.cat([c4, b5], dim=1)
+        o5 = self.cv5(c5)
+
+        out = self.exit(o5)
         return out

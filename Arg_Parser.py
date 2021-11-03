@@ -113,8 +113,8 @@ def data_predict_parser():
     req_args.add_argument('-lr', dest='low_res', help='REQUIRED: Low resolution specified[example: 40kb]',
                           default='40kb', required=True)
     req_args.add_argument('-f', dest='file_name', help='REQUIRED: Matrix file to be enhanced[example: '
-                                                       'hicarn_10kb40kb_c40_s40_b201_nonpool_human_GM12878_test.npz')
-    req_args.add_argument('m', dest='model', help='REQUIRED: Choose your model[example: HiCARN_1]', required=True)
+                                                       'hicarn_10kb40kb_c40_s40_b201_nonpool_human_GM12878_test.npz', required=True)
+    req_args.add_argument('-m', dest='model', help='REQUIRED: Choose your model[example: HiCARN_1]', required=True)
     gan_args = parser.add_argument_group('GAN model Arguments')
     gan_args.add_argument('-ckpt', dest='checkpoint', help='REQUIRED: Checkpoint file of HiCARN model',
                           required=True)

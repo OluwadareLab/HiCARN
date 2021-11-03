@@ -4,6 +4,9 @@ import multiprocessing
 import numpy as np
 from torch.utils.data import TensorDataset, DataLoader
 from tqdm import tqdm
+import Models.HiCSR as HiCSR
+import Models.HiCNN as HiCNN
+import Models.HiCPlus as HiCPlus
 import torch
 import torch.nn.functional as F
 from Utils.io import spreadM, together
@@ -51,15 +54,15 @@ def hicarn_predictor(model, deephic_loader, ckpt_file, device):
     model = model.Generator().to(device)
     if not os.path.isfile(ckpt_file):
         ckpt_file = f'save/{ckpt_file}'
-    model.load_state_dict(torch.load(ckpt_file))
-    print(f'Loading HiCSR checkpoint file from "{ckpt_file}"')
+    model.load_state_dict(torch.load(ckpt_file, map_location=torch.device('cpu')))
+    print(f'Loading {args.model} checkpoint file from "{ckpt_file}"')
 
     result_data = []
     result_inds = []
 
     model.eval()
     with torch.no_grad():
-        for batch in tqdm(deephic_loader, desc='HiCSR Predicting: '):
+        for batch in tqdm(deephic_loader, desc=f'{args.model} Predicting: '):
             lr, hr, inds = batch
             lr = lr.to(device)
             out = predict(model, lr)
@@ -83,7 +86,6 @@ if __name__ == '__main__':
     cell_line = args.cell_line
     low_res = args.low_res
     ckpt_file = args.checkpoint
-    res_num = args.resblock
     cuda = args.cuda
     model = args.model
     print('WARNING: Prediction process requires a large memory. Ensure that your machine has ~150G of memory.')
@@ -97,7 +99,7 @@ if __name__ == '__main__':
     mkdir(out_dir)
 
     files = [f for f in os.listdir(in_dir) if f.find(low_res) >= 0]
-    hicarn_file = os.path.join(root_dir, 'data/', args.file)
+    hicarn_file = os.path.join(root_dir, 'data/', args.file_name)
 
     chunk, stride, bound, scale = filename_parser(hicarn_file)
 
@@ -109,6 +111,15 @@ if __name__ == '__main__':
     print(f'Loading data: {hicarn_file}')
     hicarn_data = np.load(os.path.join(in_dir, hicarn_file), allow_pickle=True)
     hicarn_loader = dataloader(hicarn_data)
+
+    if model == "HiCSR":
+        model = HiCSR
+
+    if model == "HiCPlus":
+        model = HiCPlus
+
+    if model == "HiCNN":
+        model = HiCNN
 
     indices, compacts, sizes = data_info(hicarn_data)
     hicarn_hics = hicarn_predictor(model, hicarn_loader, ckpt_file, device)
