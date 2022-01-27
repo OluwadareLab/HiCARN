@@ -25,7 +25,7 @@ HiCARN runs in a Docker-containerized environment. Before cloning this repositor
 3. Run the HiCARN container and mount the present working directory to the container using `docker run --rm -it --name hicarn_cont -v ${PWD}:/HiCARN oluwadarelab/hicarn`.
 ___________________
 ## Dependencies
-HiCARN is written in Python3 and uses the Pytorch module. All dependencies are included in the Docker environment.
+HiCARN is written in Python3 and uses the Pytorch module. All dependencies are included in the Docker environment. <br />
 **_Note:_** GPU usage for training and testing is highly recommended.
 
 
