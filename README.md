@@ -4,7 +4,7 @@
 ___________________
 HiCARN runs in a Docker-containerized environment. Before cloning this repository and attempting to build, install the Docker engine. To install and build HiCARN follow these steps.
 
-1. Clone this repository locally using the command git clone https://github.com/OluwadareLab/HiCARN.git && cd HiCARN.
+1. Clone this repository locally using the command `git clone https://github.com/OluwadareLab/HiCARN.git && cd HiCARN`.
 2. Pull the HiCARN docker image from docker hub using the command docker pull oluwadarelab/hicarn:latest. This may take a few minutes. Once finished, check that the image was sucessfully pulled using docker image ls.
 3. Run the HiCARN container and mount the present working directory to the container using `docker run --rm -it --name hicarn_cont -v ${PWD}:/HiCARN oluwadarelab/hicarn`.
 ___________________
