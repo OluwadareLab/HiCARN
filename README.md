@@ -4,14 +4,14 @@ ___________________
 ___________________
 
 #### Developers:
-Parker Hicks
-Concordia University Irvine
+Parker Hicks <br />
+Concordia University Irvine <br />
 Email: [parker.hicks@eagles.cui.edu](parker.hicks@eagles.cui.edu)
 
 #### Contact:
-Oluwatosin Oluwadare, PhD
-Department of Computer Science
-University of Colorado, Colorado Springs
+Oluwatosin Oluwadare, PhD <br />
+Department of Computer Science <br />
+University of Colorado, Colorado Springs <br />
 Email: [ooluwada@uccs.edu](ooluwada@uccs.edu)
             
 ___________________
