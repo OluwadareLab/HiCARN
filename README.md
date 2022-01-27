@@ -32,7 +32,7 @@ HiCARN is written in Python3 and uses the Pytorch module.
 
 The following versions are recommended when using HiCARN:
 - Python 3.8
-- Pytorch 1.9.0
+- Pytorch 1.10.0, CUDA 11.3
 - Numpy 1.21.1
 - Scipy 1.7.0
 - Pandas 1.3.1
