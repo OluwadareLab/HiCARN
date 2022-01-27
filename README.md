@@ -1,4 +1,7 @@
 # HiCARN: Super Resolution of Hi-C Data with a Cascading Residual Network
+___________________
+OluwadareLab, University of Colorado, Colorado Springs
+___________________
 
 ## Build Instructions:
 ___________________
