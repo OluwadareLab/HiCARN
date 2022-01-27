@@ -3,13 +3,13 @@ ___________________
 ### OluwadareLab, University of Colorado, Colorado Springs
 ___________________
 
-###Developers:
+### Developers:
               Parker Hicks
               Concordia University Irvine
               Email: parker.hicks@eagles.cui.edu
 
 
-###Contact:
+### Contact:
               Oluwatosin Oluwadare, PhD
               Department of Computer Science
               University of Colorado, Colorado Springs
