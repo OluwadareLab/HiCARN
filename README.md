@@ -1,15 +1,14 @@
 # HiCARN: Super Resolution of Hi-C Data with a Cascading Residual Network
 ___________________
-### OluwadareLab, University of Colorado, Colorado Springs
+#### OluwadareLab, University of Colorado, Colorado Springs
 ___________________
 
-### Developers:
+#### Developers:
               Parker Hicks
               Concordia University Irvine
               Email: parker.hicks@eagles.cui.edu
 
-
-### Contact:
+#### Contact:
               Oluwatosin Oluwadare, PhD
               Department of Computer Science
               University of Colorado, Colorado Springs
