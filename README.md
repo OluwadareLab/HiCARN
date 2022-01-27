@@ -5,6 +5,7 @@ ___________________
 
 #### Developers:
 Parker Hicks <br />
+Department of Biology <br />
 Concordia University Irvine <br />
 Email: [parker.hicks@eagles.cui.edu](mailto:parker.hicks@eagles.cui.edu)
 
