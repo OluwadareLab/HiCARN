@@ -18,7 +18,6 @@ Email: [ooluwada@uccs.edu](mailto:ooluwada@uccs.edu)
 ___________________
 
 ## Build Instructions:
-___________________
 HiCARN runs in a Docker-containerized environment. Before cloning this repository and attempting to build, install the Docker engine. To install and build HiCARN follow these steps.
 
 1. Clone this repository locally using the command `git clone https://github.com/OluwadareLab/HiCARN.git && cd HiCARN`.
