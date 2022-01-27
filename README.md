@@ -6,13 +6,13 @@ ___________________
 #### Developers:
 Parker Hicks <br />
 Concordia University Irvine <br />
-Email: [parker.hicks@eagles.cui.edu](parker.hicks@eagles.cui.edu)
+Email: [parker.hicks@eagles.cui.edu](mailto:parker.hicks@eagles.cui.edu)
 
 #### Contact:
 Oluwatosin Oluwadare, PhD <br />
 Department of Computer Science <br />
 University of Colorado, Colorado Springs <br />
-Email: [ooluwada@uccs.edu](ooluwada@uccs.edu)
+Email: [ooluwada@uccs.edu](mailto:ooluwada@uccs.edu)
             
 ___________________
 
