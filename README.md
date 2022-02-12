@@ -66,10 +66,10 @@ Follow the following steps to generate datasets in .npz format:
 will be stored.
 
 ```bash
-$ python Read_Data.py -c GM12878
+$ python Read_Data.py -c GM12878 
 ```
 Required arguments:
-* `-c`: Cell line as named in `$root_dir/raw/[cell_line_name]`.
+* `-c`: Specify only the name of the directory holding the  Unziped Cell line data you downloaded in above `$root_dir/raw/[cell_line_name]`. In our case,  the directory [cell_line_name] = GM12878 
 
 Optional arguments:
 * `-hr`: Specified resolution. You can choose from 5kb, 10kb, 25kb, 50kb, 100kb, 250kb, 500kb, and 1mb. Default is 10kb.
