@@ -107,8 +107,9 @@ All arguments:
 * `-scale`: Whether to pool input submatrices or not. Default is 1.
 * `-c`: That cell line name again...
 
-Congratulations! You now have your datasets. ***Note***: For training, you must have both training and validation 
-files present in `$root_dir/data`. 
+Congratulations! You now have your datasets. 
+
+***Note***: For training, you must have both training and validation files present in `$root_dir/data`. Change the option  `-s` to generate the validation and other datasets needed
 
 ___________________
 ## Training
