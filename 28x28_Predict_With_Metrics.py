@@ -84,8 +84,6 @@ def hicarn_predictor(model, hicarn_loader, ckpt_file, device):
             test_metrics['ssims'] += batch_ssim * batch_size
             test_metrics['psnr'] = 10 * log10(1 / (test_metrics['mse'] / test_metrics['nsamples']))
             test_metrics['ssim'] = test_metrics['ssims'] / test_metrics['nsamples']
-            tqdm(hicarn_loader, desc='HiCNN Predicting: ').set_description(
-                desc=f"[Predicting in Test set] PSNR: {test_metrics['psnr']:.4f} dB SSIM: {test_metrics['ssim']:.4f}")
 
             for i, j in zip(hr, out):
                 out1 = torch.squeeze(j, dim=0)
@@ -108,12 +106,13 @@ def hicarn_predictor(model, hicarn_loader, ckpt_file, device):
     mean_mse = sum(mses) / len(mses)
     mean_repro = sum(repro) / len(repro)
 
-    print("Mean SSIM: ", mean_ssim)
+    print("Mean SSIM: ", mean_ssim.item())
     print("Mean PSNR: ", mean_psnr)
-    print("Mean MSE: ", mean_mse)
+    print("Mean MSE: ", mean_mse.item())
     print("GenomeDISCO Score: ", mean_repro)
-    deep_hics = together(result_data, result_inds, tag='Reconstructing: ')
-    return deep_hics
+    
+    hicarn_hics = together(result_data, result_inds, tag='Reconstructing: ')
+    return hicarn_hics
 
 
 def save_data(hicarn_hic, compact, size, file):
@@ -129,6 +128,7 @@ if __name__ == '__main__':
     ckpt_file = args.checkpoint
     cuda = args.cuda
     model = args.model
+    HiCARN_file = args.file_name
     print('WARNING: Prediction process requires a large memory. Ensure that your machine has ~150G of memory.')
     if multiprocessing.cpu_count() > 23:
         pool_num = 23
@@ -140,17 +140,16 @@ if __name__ == '__main__':
     mkdir(out_dir)
 
     files = [f for f in os.listdir(in_dir) if f.find(low_res) >= 0]
-    hicarn_file = os.path.join(root_dir, 'data/', args.file_name)
 
-    chunk, stride, bound, scale = filename_parser(hicarn_file)
+    chunk, stride, bound, scale = filename_parser(HiCARN_file)
 
     device = torch.device(
         f'cuda:{cuda}' if (torch.cuda.is_available() and cuda > -1 and cuda < torch.cuda.device_count()) else 'cpu')
     print(f'Using device: {device}')
 
     start = time.time()
-    print(f'Loading data: {hicarn_file}')
-    hicarn_data = np.load(os.path.join(in_dir, hicarn_file), allow_pickle=True)
+    print(f'Loading data: {HiCARN_file}')
+    hicarn_data = np.load(os.path.join(in_dir, HiCARN_file), allow_pickle=True)
     hicarn_loader = dataloader(hicarn_data)
 
     if model == "HiCSR":
