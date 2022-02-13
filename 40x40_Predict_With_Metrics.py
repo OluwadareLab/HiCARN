@@ -69,16 +69,13 @@ def hicarn_predictor(model, hicarn_loader, ckpt_file, device):
             lr = lr.to(device)
             hr = hr.to(device)
             out = deepmodel(lr)
-
+            
             batch_mse = ((out - hr) ** 2).mean()
-            batch_mae = abs((out - hr) ** 2).mean()
             test_metrics['mse'] += batch_mse * batch_size
             batch_ssim = ssim(out, hr)
             test_metrics['ssims'] += batch_ssim * batch_size
             test_metrics['psnr'] = 10 * log10(1 / (test_metrics['mse'] / test_metrics['nsamples']))
             test_metrics['ssim'] = test_metrics['ssims'] / test_metrics['nsamples']
-            tqdm(hicarn_loader, desc='CARN Predicting: ').set_description(
-                desc=f"[Predicting in Test set] PSNR: {test_metrics['psnr']:.4f} dB SSIM: {test_metrics['ssim']:.4f}")
 
             for i, j in zip(hr, out):
                 out1 = torch.squeeze(j, dim=0)
@@ -91,7 +88,6 @@ def hicarn_predictor(model, hicarn_loader, ckpt_file, device):
             ssims.append(test_metrics['ssim'])
             psnrs.append(test_metrics['psnr'])
             mses.append(batch_mse)
-            maes.append(batch_mae)
 
             result_data.append(out.to('cpu').numpy())
             result_inds.append(inds.numpy())
@@ -100,13 +96,11 @@ def hicarn_predictor(model, hicarn_loader, ckpt_file, device):
     mean_ssim = sum(ssims) / len(ssims)
     mean_psnr = sum(psnrs) / len(psnrs)
     mean_mse = sum(mses) / len(mses)
-    mean_mae = sum(maes) / len(maes)
     mean_repro = sum(repro) / len(repro)
 
-    print("Mean SSIM: ", mean_ssim)
+    print("Mean SSIM: ", mean_ssim.item())
     print("Mean PSNR: ", mean_psnr)
-    print("Mean MSE: ", mean_mse)
-    print("Mean MAE: ", mean_mae)
+    print("Mean MSE: ", mean_mse.item())
     print("GenomeDISCO Score: ", mean_repro)
 
     hicarn_hics = together(result_data, result_inds, tag='Reconstructing: ')
@@ -126,6 +120,7 @@ if __name__ == '__main__':
     ckpt_file = args.checkpoint
     cuda = args.cuda
     model = args.model
+    HiCARN_file = args.file_name
     print('WARNING: Predict process requires large memory, thus ensure that your machine has ~150G memory.')
     if multiprocessing.cpu_count() > 23:
         pool_num = 23
@@ -137,7 +132,6 @@ if __name__ == '__main__':
     mkdir(out_dir)
 
     files = [f for f in os.listdir(in_dir) if f.find(low_res) >= 0]
-    HiCARN_file = os.path.join(root_dir, 'data/', args.file_name)
 
     chunk, stride, bound, scale = filename_parser(HiCARN_file)
 
