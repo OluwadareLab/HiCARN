@@ -36,7 +36,7 @@ bound = 201
 pool = 'nonpool'
 name = 'HiCARN_1'
 
-num_epochs = 200
+num_epochs = 100
 batch_size = 64
 
 # whether using GPU for training
