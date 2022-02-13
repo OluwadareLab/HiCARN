@@ -57,33 +57,30 @@ the cell line name will be created containing contact matrices for all chromosom
 the [README](https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE63525&format=file&file=GSE63525%5FOVERALL%5FREADME%2Ertf)
 for further details.
 
-Processed data from our `Data/Example_Data` directory should be placed in `$root_dir/data`. For simplicity, high and
-low resolution will be referred to as HR and LR respectively.
-
 Follow the following steps to generate datasets in .npz format:
 1. **Read the raw data.** 
-   * This will create a new directory `$root_dir/mat/[cell_line_name]` where all chrN_[HR].npz files
+   * This will create a new directory `$root_dir/mat/<cell_line_name>` where all chrN_<HR>.npz files
 will be stored.
 
 ```bash
 $ python Read_Data.py -c GM12878 
 ```
 Required arguments:
-* `-c`: Specify only the name of the directory holding the  Unziped Cell line data you downloaded in above `$root_dir/raw/[cell_line_name]`. In our case,  the directory [cell_line_name] = GM12878 
+* `-c`: Specify only the name of the directory holding the  Unziped Cell line data you downloaded in above `$root_dir/raw/<cell_line_name>`. In our case,  the directory <cell_line_name> = GM12878 
 
 Optional arguments:
 * `-hr`: Specified resolution. You can choose from 5kb, 10kb, 25kb, 50kb, 100kb, 250kb, 500kb, and 1mb. Default is 10kb.
 * `-q`: Specified map quality. Options are MAPQGE30 and MAPQG0. Default is MAPQGE30.
 * `-n`: Normalization. Options are KRnorm, SQRTVCnorm, and VCnorm. Default is KRnorm.
 
-2. **Randomly downsample the data.** This adds downsampled HR data to `$root_dir/mat/[cell_line_name]` as chrN_[LR].npz.
+2. **Randomly downsample the data.** This adds downsampled HR data to `$root_dir/mat/<cell_line_name>` as chrN_<LR>.npz.
 
 ```bash
 $ python Downsample.py -hr 10kb -lr 40kb -r 16 -c GM12878
 ```
 All arguments:
 * `-hr`: Specified resolution from the previous step. Default is 10kb
-* `lr`: Provides a resolution for [LR] in chrN_[LR].npz. Default is 40kb
+* `lr`: Provides a resolution for <LR> in chrN_<LR>.npz. Default is 40kb
 * `-r`: Downsampling ratio. Default is 16
 * `-c`: Cell line name.
 
@@ -109,8 +106,13 @@ All arguments:
 
 Congratulations! You now have your datasets. 
 
-***Note***: For training, you must have both training and validation files present in `$root_dir/data`. Change the option  `-s` to generate the validation and other datasets needed
+***Note***: For training, you must have both training and validation files present in `$root_dir/data`. Change the option `-s` to generate the validation and other datasets needed
 
+___________________
+## Using Our Processed Data
+
+Processed data from our `Data/` directory should be placed in your `$root_dir/data` directory. There you can find training and validation files in `Data/Train_and_Validate/` and also test sets in `Data/Test/` where you may choose from a group file containing four chromosomes or a file containing only chromosome 4. 
+            
 ___________________
 ## Training
 
@@ -119,7 +121,7 @@ We provide training files for both HiCARN-1 and HiCARN-2.
 To train:
 
 ```bash
-$ python HiCARN_[1 or 2]_Train.py
+$ python HiCARN_<1 or 2>_Train.py
 ```
 ___________________
 ## Predicting
@@ -129,21 +131,21 @@ your own trained model. For quick predictions use the following commands below:
 
 1. If predicting with HiCARN-1, HiCARN-2, or DeepHiC:
 ```bash
-$ python 40x40_Predict.py -m HiCARN_1 -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -c GM12878
+$ python 40x40_Predict.py -m HiCARN_1 -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -f hicarn_10kb40kb_c40_s40_GM12878_test.npz -c GM12878
 ```
 
 2. If predicting with HiCSR, HiCNN, or HiCPlus:
 * These models output a 28x28 matrix from a 40x40 input, so the inputs need to be padded to 52x52 so that a 40x40
 output is returned.
 ```bash
-$ python 28x28_Predict.py -m HiCSR -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -c GM12878
+$ python 28x28_Predict.py -m HiCSR -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -f hicarn_10kb40kb_c40_s40_GM12878_test.npz -c GM12878
 ```
 All arguments:
 * `-m`: Model to predict with. Options are HiCARN_1, HiCARN_2, DeepHiC, HiCSR, HiCNN, or HiCPlus.
 * `-lr`: Low resolution to be enhanced. Default is 40kb.
 * `-ckpt`: Checkpoint file from either our `Pretrained_weights` or your `$root_dir/checkpoints` directory.
-* `-f`: Low resolution file to be enhanced. 
-  * Example: `file/location/hicarn_10kb40kb_c40_s40_b201_nonpool_GM12878_test.npz.`
+* `-f`: Low resolution file name to be enhanced. Must be located in the `$root_dir/data` directory.
+  * Example: `hicarn_10kb40kb_c40_s40_b201_nonpool_GM12878_test.npz.`
 * `-c`: The cell line just one more time.
 
 ___________________
@@ -152,10 +154,10 @@ If you would like to perform analysis metrics for your predictions use the follo
 
 1. If predicting with HiCARN-1, HiCARN-2, or DeepHiC:
 ```bash
-$ python 40x40_Predict_With_Metrics.py -m HiCARN_1 -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -c GM12878
+$ python 40x40_Predict_With_Metrics.py -m HiCARN_1 -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -f hicarn_10kb40kb_c40_s40_GM12878_test.npz -c GM12878
 ```
 
 2. If predicting with HiCSR, HiCNN, or HiCPlus:
 ```bash
-$ python 28x28_Predict_With_Metrics.py -m HiCSR -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -c GM12878
+$ python 28x28_Predict_With_Metrics.py -m HiCSR -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -f hicarn_10kb40kb_c40_s40_GM12878_test.npz -c GM12878
 ```
