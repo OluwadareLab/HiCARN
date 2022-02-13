@@ -79,6 +79,7 @@ if __name__ == '__main__':
     ckpt_file = args.checkpoint
     cuda = args.cuda
     model = args.model
+    HiCARN_file = args.file_name
     print('WARNING: Predict process requires large memory, thus ensure that your machine has ~150G memory.')
     if multiprocessing.cpu_count() > 23:
         pool_num = 23
@@ -90,7 +91,6 @@ if __name__ == '__main__':
     mkdir(out_dir)
 
     files = [f for f in os.listdir(in_dir) if f.find(low_res) >= 0]
-    HiCARN_file = os.path.join(root_dir, 'data/', args.file_name)
 
     chunk, stride, bound, scale = filename_parser(HiCARN_file)
 
