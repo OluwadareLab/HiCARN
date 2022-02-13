@@ -88,6 +88,7 @@ if __name__ == '__main__':
     ckpt_file = args.checkpoint
     cuda = args.cuda
     model = args.model
+    HiCARN_file = args.file_name
     print('WARNING: Prediction process requires a large memory. Ensure that your machine has ~150G of memory.')
     if multiprocessing.cpu_count() > 23:
         pool_num = 23
@@ -99,17 +100,16 @@ if __name__ == '__main__':
     mkdir(out_dir)
 
     files = [f for f in os.listdir(in_dir) if f.find(low_res) >= 0]
-    hicarn_file = os.path.join(root_dir, 'data/', args.file_name)
 
-    chunk, stride, bound, scale = filename_parser(hicarn_file)
+    chunk, stride, bound, scale = filename_parser(HiCARN_file)
 
     device = torch.device(
         f'cuda:{cuda}' if (torch.cuda.is_available() and cuda > -1 and cuda < torch.cuda.device_count()) else 'cpu')
     print(f'Using device: {device}')
 
     start = time.time()
-    print(f'Loading data: {hicarn_file}')
-    hicarn_data = np.load(os.path.join(in_dir, hicarn_file), allow_pickle=True)
+    print(f'Loading data: {HiCARN_file}')
+    hicarn_data = np.load(os.path.join(in_dir, HiCARN_file), allow_pickle=True)
     hicarn_loader = dataloader(hicarn_data)
 
     if model == "HiCSR":
