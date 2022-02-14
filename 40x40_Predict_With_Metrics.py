@@ -109,7 +109,7 @@ def hicarn_predictor(model, hicarn_loader, ckpt_file, device):
 
 def save_data(carn, compact, size, file):
     carn = spreadM(carn, compact, size, convert_int=False, verbose=True)
-    np.savez_compressed(file, deephic=carn, compact=compact)
+    np.savez_compressed(file, hicarn=carn, compact=compact)
     print('Saving file:', file)
 
 
