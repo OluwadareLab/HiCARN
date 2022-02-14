@@ -165,7 +165,9 @@ ___________________
             
 ## Accessing Your Predicted Data
             
-The output predictions are stored in .npz files that store numpy arrays under keys.             
+The output predictions are stored in .npz files that store numpy arrays under keys. The keys for your predicted .npz files are `hicarn` and `compact`. The predicted HR contact map is stored under the `hicarn` key. The `compact` key contains the indices for where there are non-zero entries in the contact map.
+            
+To access the predicted HR matrix, use the following command in a python file: `hic_matrix = np.load("path/to/file.npz, allow_pickle=True)['hicarn']`.
             
             
             
