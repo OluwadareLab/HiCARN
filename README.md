@@ -131,14 +131,14 @@ your own trained model. For quick predictions use the following commands below:
 
 1. If predicting with HiCARN-1, HiCARN-2, or DeepHiC:
 ```bash
-$ python 40x40_Predict.py -m HiCARN_1 -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -f hicarn_10kb40kb_c40_s40_GM12878_test.npz -c GM12878_HiCARN_1
+$ python 40x40_Predict.py -m HiCARN_1 -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -f hicarn_10kb40kb_c40_s40_nonpool_human_GM12878_test.npz -c GM12878_HiCARN_1
 ```
 
 2. If predicting with HiCSR, HiCNN, or HiCPlus:
 * These models output a 28x28 matrix from a 40x40 input, so the inputs need to be padded to 52x52 so that a 40x40
 output is returned.
 ```bash
-$ python 28x28_Predict.py -m HiCSR -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -f hicarn_10kb40kb_c40_s40_GM12878_test.npz -c GM12878_HiCSR
+$ python 28x28_Predict.py -m HiCSR -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -f hicarn_10kb40kb_c40_s40_nonpool_human_GM12878_test.npz -c GM12878_HiCSR
 ```
 All arguments:
 * `-m`: Model to predict with. Options are HiCARN_1, HiCARN_2, DeepHiC, HiCSR, HiCNN, or HiCPlus.
@@ -154,10 +154,10 @@ If you would like to perform analysis metrics for your predictions use the follo
 
 1. If predicting with HiCARN-1, HiCARN-2, or DeepHiC:
 ```bash
-$ python 40x40_Predict_With_Metrics.py -m HiCARN_1 -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -f hicarn_10kb40kb_c40_s40_GM12878_test.npz -c GM12878_HiCARN_1
+$ python 40x40_Predict_With_Metrics.py -m HiCARN_1 -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -f hicarn_10kb40kb_c40_s40_nonpool_human_GM12878_test.npz -c GM12878_HiCARN_1
 ```
 
 2. If predicting with HiCSR, HiCNN, or HiCPlus:
 ```bash
-$ python 28x28_Predict_With_Metrics.py -m HiCSR -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -f hicarn_10kb40kb_c40_s40_GM12878_test.npz -c GM12878_HiCSR
+$ python 28x28_Predict_With_Metrics.py -m HiCSR -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -f hicarn_10kb40kb_c40_s40_nonpool_human_GM12878_test.npz -c GM12878_HiCSR
 ```
