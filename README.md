@@ -121,7 +121,7 @@ We provide training files for both HiCARN-1 and HiCARN-2.
 To train:
 
 ```bash
-$ python HiCARN_<1 or 2>_Train.py
+$ python HiCARN_[1 or 2]_Train.py
 ```
 ___________________
 ## Predicting
