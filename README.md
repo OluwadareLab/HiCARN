@@ -161,3 +161,11 @@ $ python 40x40_Predict_With_Metrics.py -m HiCARN_1 -lr 40kb -ckpt root_dir/check
 ```bash
 $ python 28x28_Predict_With_Metrics.py -m HiCSR -lr 40kb -ckpt root_dir/checkpoints/weights_file.pytorch -f hicarn_10kb40kb_c40_s40_b201_nonpool_human_GM12878_test.npz -c GM12878_HiCSR
 ```
+___________________
+            
+## Accessing Your Predicted Data
+            
+The output predictions are stored in .npz files that store numpy arrays under keys.             
+            
+            
+            
