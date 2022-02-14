@@ -59,8 +59,7 @@ for further details.
 
 Follow the following steps to generate datasets in .npz format:
 1. **Read the raw data.** 
-   * This will create a new directory `$root_dir/mat/<cell_line_name>` where all chrN_<HR>.npz files
-will be stored.
+   * This will create a new directory `$root_dir/mat/<cell_line_name>` where all chrN_[HR].npz files will be stored.
 
 ```bash
 $ python Read_Data.py -c GM12878 
@@ -73,14 +72,14 @@ Optional arguments:
 * `-q`: Specified map quality. Options are MAPQGE30 and MAPQG0. Default is MAPQGE30.
 * `-n`: Normalization. Options are KRnorm, SQRTVCnorm, and VCnorm. Default is KRnorm.
 
-2. **Randomly downsample the data.** This adds downsampled HR data to `$root_dir/mat/<cell_line_name>` as chrN_<LR>.npz.
+2. **Randomly downsample the data.** This adds downsampled HR data to `$root_dir/mat/<cell_line_name>` as chrN_[LR].npz.
 
 ```bash
 $ python Downsample.py -hr 10kb -lr 40kb -r 16 -c GM12878
 ```
 All arguments:
 * `-hr`: Specified resolution from the previous step. Default is 10kb
-* `lr`: Provides a resolution for <LR> in chrN_<LR>.npz. Default is 40kb
+* `lr`: Provides a resolution for [LR] in chrN_[LR].npz. Default is 40kb
 * `-r`: Downsampling ratio. Default is 16
 * `-c`: Cell line name.
 
