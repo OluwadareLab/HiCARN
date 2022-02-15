@@ -122,6 +122,9 @@ To train:
 ```bash
 $ python HiCARN_[1 or 2]_Train.py
 ```
+This function will output .pytorch checkpoint files containing the trained weights. During validation, if the highest SSIM score is attained, then the weights of that epoch will be saved as `bestg`. There will be multiple `bestg` checkpoint files during a single training. 
+
+* For HiCARN-1: 
 ___________________
 ## Predicting
 
