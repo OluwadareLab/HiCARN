@@ -24,6 +24,7 @@ HiCARN runs in a Docker-containerized environment. Before cloning this repositor
 1. Clone this repository locally using the command `git clone https://github.com/OluwadareLab/HiCARN.git && cd HiCARN`.
 2. Pull the HiCARN docker image from docker hub using the command `docker pull oluwadarelab/hicarn:latest`. This may take a few minutes. Once finished, check that the image was sucessfully pulled using `docker image ls`.
 3. Run the HiCARN container and mount the present working directory to the container using `docker run --rm --gpus all -it --name hicarn -v ${PWD}:${PWD} oluwadarelab/hicarn`.
+4. Locate and move to your working directory.
 ___________________
 ## Dependencies
 HiCARN is written in Python3 and uses the Pytorch module. All dependencies are included in the Docker environment. <br />
