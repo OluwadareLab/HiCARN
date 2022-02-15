@@ -122,9 +122,9 @@ To train:
 ```bash
 $ python HiCARN_[1 or 2]_Train.py
 ```
-This function will output .pytorch checkpoint files containing the trained weights. During validation, if the highest SSIM score is attained, then the weights of that epoch will be saved as `bestg`. There will be multiple `bestg` checkpoint files during a single training. 
+This function will output .pytorch checkpoint files containing the trained weights. During validation, if the highest SSIM score is attained, then the weights of that epoch will be saved as `bestg`. There will be multiple `bestg` checkpoint files during a single training. Once training is complete after the full set of epochs, a `finalg` checkpoint file will be created. We used the `finalg` checkpoint files for our predictions.
 
-* For HiCARN-1: 
+After training HiCARN-2, a `finald` checkpoint file will be generated. This contains the weights for the HiCARN-2 discriminator and is not used in predictions.
 ___________________
 ## Predicting
 
