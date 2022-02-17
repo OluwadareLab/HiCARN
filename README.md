@@ -51,7 +51,7 @@ primary intrachromosomal, [K562](https://www.ncbi.nlm.nih.gov/geo/download/?acc=
 intrachromasomal, and [CH12-LX](https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE63525&format=file&file=GSE63525%5FCH12%2DLX%5Fintrachromosomal%5Fcontact%5Fmatrices%2Etar%2Egz)
 (mouse) intrachromosomal contact matrices.
 
-* Set your root directory as a string in `Data/Arg_Parser.py`. For example, we set root_dir = './Datasets_NPZ' 
+* Set your root directory as a string in `Data/Arg_Parser.py`. For example, we set `root_dir = './Datasets_NPZ'`
 * Make a new direcrory named `raw` to store your raw datasets. Command:  `mkdir $root_dir/raw`
 * Download and Unzip your data into the `$root_dir/raw` directory.  For example for GM12878 data, a folder with
 the cell line name will be created containing contact matrices for all chromosomes for all available resolutions. See
