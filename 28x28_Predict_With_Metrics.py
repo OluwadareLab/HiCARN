@@ -32,6 +32,11 @@ def dataloader(data, batch_size=64):
     dataset = TensorDataset(inputs, target, inds)
     loader = DataLoader(dataset, batch_size=batch_size, shuffle=False)
     return loader
+    
+def get_chr_nums(data):
+	inds = torch.tensor(data['inds'], dtype=torch.long)
+	chr_nums = sorted(list(np.unique(inds[:, 0])))
+	return chr_nums
 
 
 def data_info(data):
@@ -53,16 +58,24 @@ def filename_parser(filename):
     return chunk, stride, bound, scale
 
 
-def hicarn_predictor(model, hicarn_loader, ckpt_file, device):
+def hicarn_predictor(model, hicarn_loader, ckpt_file, device, data_file):
     deepmodel = model.Generator().to(device)
     if not os.path.isfile(ckpt_file):
         ckpt_file = f'save/{ckpt_file}'
     deepmodel.load_state_dict(torch.load(ckpt_file, map_location=torch.device('cpu')))
-    print(f'Loading {args.model} checkpoint file from "{ckpt_file}"')
+    print(f'Loading HiCARN checkpoint file from "{ckpt_file}"')
 
     result_data = []
     result_inds = []
-    test_metrics = {'mse': 0, 'ssims': 0, 'psnr': 0, 'ssim': 0, 'nsamples': 0}
+    test_metrics = {'g_loss': 0,
+                    'mse': 0, 'ssims': 0, 'psnr': 0, 'ssim': 0, 'nsamples': 0, 'reproducibility': 0}
+    
+    chr_nums = get_chr_nums(data_file)
+    
+    results_dict = dict()
+    for chr in chr_nums:
+    	results_dict[chr] = [[0], [0], [0], [0]]  # Make respective lists for ssim, psnr, mse, and repro
+    
     ssims = []
     psnrs = []
     mses = []
@@ -166,7 +179,7 @@ if __name__ == '__main__':
         model = HiCNN
 
     indices, compacts, sizes = data_info(hicarn_data)
-    hicarn_hics = hicarn_predictor(model, hicarn_loader, ckpt_file, device)
+    hicarn_hics = hicarn_predictor(model, hicarn_loader, ckpt_file, device, hicarn_data)
 
 
     def save_data_n(key):
