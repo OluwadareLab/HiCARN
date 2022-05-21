@@ -67,59 +67,66 @@ def hicarn_predictor(model, hicarn_loader, ckpt_file, device, data_file):
 
     result_data = []
     result_inds = []
-    test_metrics = {'g_loss': 0,
-                    'mse': 0, 'ssims': 0, 'psnr': 0, 'ssim': 0, 'nsamples': 0, 'reproducibility': 0}
     
     chr_nums = get_chr_nums(data_file)
     
     results_dict = dict()
+    test_metrics = dict()
     for chr in chr_nums:
-    	results_dict[chr] = [[0], [0], [0], [0]]  # Make respective lists for ssim, psnr, mse, and repro
-    
-    ssims = []
-    psnrs = []
-    mses = []
-    repro = []
-
+    	test_metrics[f'{chr}'] = {'mse': 0, 'ssims': 0, 'psnr': 0, 'ssim': 0, 'nsamples': 0}
+    	results_dict[f'{chr}'] = [[], [], [], []]  # Make respective lists for ssim, psnr, mse, and repro   
+	
     deepmodel.eval()
     with torch.no_grad():
-        for batch in tqdm(hicarn_loader, desc=f'{args.model} Predicting: '):
-            lr, hr, inds = batch
-            batch_size = lr.size(0)
-            test_metrics['nsamples'] += batch_size
-            lr = lr.to(device)
-            hr = hr.to(device)
-            out = predict(deepmodel, lr)
+        for batch in tqdm(hicarn_loader, desc='HiCARN Predicting: '):
+        	lr, hr, inds = batch
+        	batch_size = lr.size(0)
+        	ind = f'{(inds[0][0]).item()}'
+        	test_metrics[ind]['nsamples'] += batch_size
+        	lr = lr.to(device)
+        	hr = hr.to(device)
+        	out = predict(deepmodel, lr)
+        	
+        	batch_mse = ((out - hr) ** 2).mean()
+        	test_metrics[ind]['mse'] += batch_mse * batch_size
+        	batch_ssim = ssim(out, hr)
+        	test_metrics[ind]['ssims'] += batch_ssim * batch_size
+        	test_metrics[ind]['psnr'] = 10 * log10(1 / (test_metrics[ind]['mse'] / test_metrics[ind]['nsamples']))
+        	test_metrics[ind]['ssim'] = test_metrics[ind]['ssims'] / test_metrics[ind]['nsamples']
 
-            for key, value in results_dict.items():
-            	ind = (inds[0][0]).item()
-            	if ind == key:
-            		batch_ssim = ssim(out, hr)
-            		test_metrics['ssims'] += batch_ssim * batch_size
-            		test_metrics['ssim'] = test_metrics['ssims'] / test_metrics['nsamples']
-            		((results_dict[ind])[0]).append((test_metrics['ssim']).item())
-            		batch_mse = ((out - hr) ** 2).mean()
-            		test_metrics['mse'] += batch_mse * batch_size
-            		((results_dict[ind])[1]).append(batch_mse.item())
-            		((results_dict[ind])[2]).append(10 * log10(1 / ((test_metrics['mse']) / test_metrics['nsamples'])))
-            		for i, j in zip(hr, out):
-                		out1 = torch.squeeze(j, dim=0)
-                		hr1 = torch.squeeze(i, dim=0)
-                		out2 = out1.cpu().detach().numpy()
-                		hr2 = hr1.cpu().detach().numpy()
-                		genomeDISCO = compute_reproducibility(out2, hr2, transition=True)
-                		((results_dict[ind])[3]).append(genomeDISCO)
-
-            result_data.append(out.to('cpu').numpy())
-            result_inds.append(inds.numpy())
+        	((results_dict[ind])[0]).append((test_metrics[ind]['ssim']).item())
+        	((results_dict[ind])[1]).append(batch_mse.item())
+        	((results_dict[ind])[2]).append(test_metrics[ind]['psnr'])
+        	
+        	for i, j in zip(hr, out):
+        		out1 = torch.squeeze(j, dim=0)
+        		hr1 = torch.squeeze(i, dim=0)
+        		out2 = out1.cpu().detach().numpy()
+        		hr2 = hr1.cpu().detach().numpy()
+        		genomeDISCO = compute_reproducibility(out2, hr2, transition=True)
+        		((results_dict[ind])[3]).append(genomeDISCO)
+        		
+        	result_data.append(out.to('cpu').numpy())
+        	result_inds.append(inds.numpy())
     result_data = np.concatenate(result_data, axis=0)
     result_inds = np.concatenate(result_inds, axis=0)
     
+    mean_ssims = []
+    mean_mses = []
+    mean_psnrs = []
+    mean_gds = []
+        
     for key, value in results_dict.items():
     	value[0] = sum(value[0])/len(value[0])
     	value[1] = sum(value[1])/len(value[1])
     	value[2] = sum(value[2])/len(value[2])
     	value[3] = sum(value[3])/len(value[3])
+    	
+    	mean_ssims.append(value[0])
+    	mean_mses.append(value[1])
+    	mean_psnrs.append(value[2])
+    	mean_gds.append(value[3])
+    	
     	print("\n")
     	print("Chr", key, "SSIM: ", value[0])
     	print("Chr", key, "MSE: ", value[1])
@@ -127,10 +134,17 @@ def hicarn_predictor(model, hicarn_loader, ckpt_file, device, data_file):
     	print("Chr", key, "GenomeDISCO: ", value[3])
 
     print("\n")
+    print("___________________________________________")
+    print("Means across chromosomes")
+    print("SSIM: ", sum(mean_ssims) / len(mean_ssims))
+    print("MSE: ", sum(mean_mses) / len(mean_mses))
+    print("PSNR: ", sum(mean_psnrs) / len(mean_psnrs))
+    print("GenomeDISCO: ", sum(mean_gds) / len(mean_gds))
+    print("___________________________________________")
+    print("\n")
     
     hicarn_hics = together(result_data, result_inds, tag='Reconstructing: ')
-    return hicarn_hics
-
+    return hicarn_hics        	
 
 def save_data(hicarn_hic, compact, size, file):
     hicarn = spreadM(hicarn_hic, compact, size, convert_int=False, verbose=True)
