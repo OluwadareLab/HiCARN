@@ -123,6 +123,6 @@ class DAE(nn.Module):
                 x = self.relu(x)
 
         x += residual
-        x = F.relu(x)
+        x = torch.tanh(x)
 
         return x
