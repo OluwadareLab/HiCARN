@@ -52,7 +52,7 @@ class Generator(nn.Module):
         res_blocks = self.res_blocks(first_block)
         post_res_block = self.post_res_block(res_blocks)
         final_block = self.final_block(first_block + post_res_block)
-        return F.relu(final_block)
+        return torch.tanh(final_block)
 
 
 class Discriminator(nn.Module):
