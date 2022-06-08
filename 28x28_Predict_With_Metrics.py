@@ -3,8 +3,8 @@ import time
 import multiprocessing
 import numpy as np
 from torch.utils.data import TensorDataset, DataLoader
-from tqdm import tqdm
 from math import log10
+from tqdm import tqdm
 import Models.HiCSR as HiCSR
 import Models.HiCNN as HiCNN
 import Models.HiCPlus as HiCPlus
@@ -23,7 +23,6 @@ def predict(model, data):
     predicted_mat = torch.zeros((1, 1, padded_data.shape[2], padded_data.shape[3]))
     predicted_mat = model(padded_data).to(device)
     return predicted_mat
-
 
 def dataloader(data, batch_size=64):
     inputs = torch.tensor(data['data'], dtype=torch.float)
@@ -92,6 +91,7 @@ def hicarn_predictor(model, hicarn_loader, ckpt_file, device, data_file):
         	batch_ssim = ssim(out, hr)
         	test_metrics[ind]['ssims'] += batch_ssim * batch_size
         	test_metrics[ind]['psnr'] = 10 * log10(1 / (test_metrics[ind]['mse'] / test_metrics[ind]['nsamples']))
+
         	test_metrics[ind]['ssim'] = test_metrics[ind]['ssims'] / test_metrics[ind]['nsamples']
 
         	((results_dict[ind])[0]).append((test_metrics[ind]['ssim']).item())
@@ -117,11 +117,11 @@ def hicarn_predictor(model, hicarn_loader, ckpt_file, device, data_file):
     mean_gds = []
         
     for key, value in results_dict.items():
-    	value[0] = sum(value[0])/len(value[0])
-    	value[1] = sum(value[1])/len(value[1])
-    	value[2] = sum(value[2])/len(value[2])
-    	value[3] = sum(value[3])/len(value[3])
-    	
+    	value[0] = round(sum(value[0])/len(value[0]), 4)
+    	value[1] = round(sum(value[1])/len(value[1]), 4)
+    	value[2] = round(sum(value[2])/len(value[2]), 4)
+    	value[3] = round(sum(value[3])/len(value[3]), 4)
+
     	mean_ssims.append(value[0])
     	mean_mses.append(value[1])
     	mean_psnrs.append(value[2])
@@ -136,10 +136,10 @@ def hicarn_predictor(model, hicarn_loader, ckpt_file, device, data_file):
     print("\n")
     print("___________________________________________")
     print("Means across chromosomes")
-    print("SSIM: ", sum(mean_ssims) / len(mean_ssims))
-    print("MSE: ", sum(mean_mses) / len(mean_mses))
-    print("PSNR: ", sum(mean_psnrs) / len(mean_psnrs))
-    print("GenomeDISCO: ", sum(mean_gds) / len(mean_gds))
+    print("SSIM: ", round(sum(mean_ssims) / len(mean_ssims), 4))
+    print("MSE: ", round(sum(mean_mses) / len(mean_mses), 4))
+    print("PSNR: ", round(sum(mean_psnrs) / len(mean_psnrs), 4))
+    print("GenomeDISCO: ", round(sum(mean_gds) / len(mean_gds), 4))
     print("___________________________________________")
     print("\n")
     
