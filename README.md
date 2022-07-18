@@ -46,7 +46,7 @@ ___________________
 
 ## Data Preprocessing
 Click [here](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE63525) to view the GSE62525
-GEO accession for Hi-C data from (Rao *et al.* 2014). We used [GM12878](https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE63525&format=file&file=GSE63525%5FCH12%2DLX%5Fintrachromosomal%5Fcontact%5Fmatrices%2Etar%2Egz)
+GEO accession for Hi-C data from (Rao *et al.* 2014). We used [GM12878](https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE63525&format=file&file=GSE63525%5FGM12878%5Fprimary%5Fintrachromosomal%5Fcontact%5Fmatrices%2Etar%2Egz)
 primary intrachromosomal, [K562](https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE63525&format=file&file=GSE63525%5FK562%5Fintrachromosomal%5Fcontact%5Fmatrices%2Etar%2Egz)
 intrachromasomal, and [CH12-LX](https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE63525&format=file&file=GSE63525%5FCH12%2DLX%5Fintrachromosomal%5Fcontact%5Fmatrices%2Etar%2Egz)
 (mouse) intrachromosomal contact matrices.
