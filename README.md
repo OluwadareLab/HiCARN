@@ -8,7 +8,7 @@ ___________________
 Parker Hicks <br />
 Department of Biology <br />
 Concordia University Irvine <br />
-Email: [parker.hicks@eagles.cui.edu](mailto:parker.hicks@eagles.cui.edu)
+Email: [parker.hicks@eagles.cui.edu](mailto:parker.hicks@cuanschutz.edu)
 
 #### Contact:
 Oluwatosin Oluwadare, PhD <br />
