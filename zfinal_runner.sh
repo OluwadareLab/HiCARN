@@ -10,10 +10,10 @@
 # python Downsample.py -hr 10kb -lr 40kb -r 16 -c GM12878
 
 # Generating trainable/predictable data
-# python Generate.py -hr 10kb -lr 40kb -s all -chunk 40 -stride 40 -bound 201 -scale 1 -c GM12878
+# python Generate.py -hr 10kb -lr 40kb -chunk 40 -stride 40 -bound 201 -scale 1 -c GM12878
 
 # Predicting data
-python data_predict.py -lr 40kb -ckpt save/generator_nonpool_deephic.pytorch -c GM12878
+#python data_predict.py -lr 40kb -ckpt path/to/ckpt/hicarn.pytorch -c GM12878
 
 # Training the model
-python train.py
+#python train.py
