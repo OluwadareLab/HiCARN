@@ -16,4 +16,4 @@
 #python data_predict.py -lr 40kb -ckpt path/to/ckpt/hicarn.pytorch -c GM12878
 
 # Training the model
-#python train.py
+#python HiCARN_1_Train.py
