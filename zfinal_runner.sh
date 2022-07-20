@@ -7,7 +7,7 @@
 # python Read_Data.py -c GM12878
 
 # Downsampling data
-# python Downsample.py -hr 10kb -lr 40kb -r 16 -c GM12878
+# python Downsample.py -hr 10kb -lr 40kb -lrc 100 -r 16 -c GM12878
 
 # Generating trainable/predictable data
 # python Generate.py -hr 10kb -lr 40kb -chunk 40 -stride 40 -bound 201 -scale 1 -c GM12878
