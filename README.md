@@ -15,7 +15,9 @@ Oluwatosin Oluwadare, PhD <br />
 Department of Computer Science <br />
 University of Colorado, Colorado Springs <br />
 Email: [ooluwada@uccs.edu](mailto:ooluwada@uccs.edu)
-            
+___________________       
+## Cite:      
+Parker Hicks, Oluwatosin Oluwadare, HiCARN: resolution enhancement of Hi-C data using cascading residual networks, Bioinformatics, Volume 38, Issue 9, 1 May 2022, Pages 2414–2421, https://doi.org/10.1093/bioinformatics/btac156      
 ___________________
 
 ## Build Instructions:
@@ -172,5 +174,4 @@ The output predictions are stored in .npz files that store numpy arrays under ke
             
 To access the predicted HR matrix, use the following command in a python file: `hic_matrix = np.load("path/to/file.npz, allow_pickle=True)['hicarn']`.
             
-            
-            
+        
